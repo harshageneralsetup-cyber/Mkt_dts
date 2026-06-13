@@ -6,7 +6,6 @@ from google import genai
 
 # Fetch configurations securely from GitHub Environment Secrets
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-# The SDK automatically uses GEMINI_API_KEY if it exists in the environment
 
 if not DISCORD_WEBHOOK_URL:
     print("❌ Error: DISCORD_WEBHOOK_URL is missing from environment variables.")
@@ -24,14 +23,12 @@ def fetch_live_market_data():
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     
     try:
-        # Crude Brent
         oil_req = requests.get("https://query1.finance.yahoo.com/v8/finance/chart/BZ=F", headers=headers, timeout=5)
         data["brent"] = float(oil_req.json()['chart']['result'][0]['meta']['regularMarketPrice'])
     except Exception:
         pass
 
     try:
-        # US 10-Year Bond Yield
         yield_req = requests.get("https://query1.finance.yahoo.com/v8/finance/chart/^TNX", headers=headers, timeout=5)
         price = yield_req.json()['chart']['result'][0]['meta']['regularMarketPrice']
         data["us10y"] = f"{price}%"
@@ -39,7 +36,6 @@ def fetch_live_market_data():
         pass
 
     try:
-        # US Dollar Index
         dxy_req = requests.get("https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB", headers=headers, timeout=5)
         price = dxy_req.json()['chart']['result'][0]['meta']['regularMarketPrice']
         data["dxy"] = f"{price}"
@@ -69,8 +65,6 @@ def fetch_live_news_narratives():
 
 def generate_ai_summary(prices, narratives):
     """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report."""
-    
-    # If the narratives fallback was triggered, we give the AI a better default prompt context
     news_context = narratives
     if "parsing recent macro data setups" in narratives:
         news_context = "- Global markets are consolidating ahead of major upcoming central bank macro data updates."
@@ -95,11 +89,12 @@ def generate_ai_summary(prices, narratives):
     - Every sentence in the main sections must be dense with hard statistics, macro numbers, historical correlations, or explicit tactical sector outcomes. No filler text.
     - Prioritize a balanced macro view with heavy weightage on Indian equity market impacts.
 
-    CRITICAL FORMATTING RULES FOR DISCORD:
-    - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). 
-    - Keep the bullet point and its text on the exact same line.
+    STRICT BOLDING AND LAYOUT RULES FOR SECTORS:
+    - ONLY the sector names themselves must be bolded. 
+    - The structural definition text or description immediately following the sector name MUST NOT contain bold markdown asterisks (**). Keep description text entirely normal.
+    - Example of correct format: * **IT Services**: A DXY at 99.807 provides tailwinds for export-oriented margins...
+    - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). Keep the bullet point and its text on the exact same line.
     - Keep the "Sector Impacts" header entirely on a single line.
-    - Follow the exact bullet point characters (`*`) provided in the blueprint structure below. Do not swap them out for other symbols.
 
     --- GENERATE AND OUTPUT FILE CONTENT FOLLOWING THIS STRUCTURE ONLY ---
 
@@ -115,17 +110,17 @@ def generate_ai_summary(prices, narratives):
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish)**
-    * **[Insert Indian Sector 1 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * **[Insert Indian Sector 2 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * **[Insert Indian Sector 3 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Insert Sector 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    * **[Insert Sector 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    * **[Insert Sector 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
 
     🔴 **Immediate Losers (Bearish)**
-    * **[Insert Indian Sector 1 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * **[Insert Indian Sector 2 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * **[Insert Indian Sector 3 Name Here]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Insert Sector 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    * **[Insert Sector 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    * **[Insert Sector 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
 
     🌮 **Donald's Wildcard Corner**
-    * 🗣️ **The Presidential Proclamation**: Write a funny, highly satirical, over-the-top, fictional parody quote mimicking Donald Trump's signature speaking style (using phrases like "tremendous," "nobody knows more about tacos than me," "beautiful tariffs," "the failing taco establishments," etc.). Tie his hilarious taco obsession directly into a parody commentary about today's Brent Crude oil price, the strong DXY, or global trade negotiations. Keep it to exactly 2 punchy sentences.
+    * 🗣️ **The Presidential Proclamation**: Write a funny, highly satirical, over-the-top, fictional parody quote mimicking Donald Trump's signature speaking style. Tie his hilarious taco obsession directly into a parody commentary about today's Brent Crude oil price, the strong DXY, or global trade negotiations. Keep it to exactly 2 punchy sentences.
     """
 
     try:
@@ -138,17 +133,41 @@ def generate_ai_summary(prices, narratives):
         return f"⚠️ AI Generation Error: {str(e)}\nFalling back to system diagnostics."
 
 def dispatch_safely_under_limit(content):
-    """Guarantees messages never cross Discord limits by automatically breaking payloads."""
+    """Guarantees messages never cross Discord limits by breaking payloads safely at paragraph boundaries."""
     if not content:
         return
+    
     max_chars = 1900
-    chunks = [content[i:i+max_chars] for i in range(0, len(content), max_chars)]
-    for chunk in chunks:
-        try:
-            response = requests.post(DISCORD_WEBHOOK_URL, json={"content": str(chunk)}, timeout=5)
-            response.raise_for_status()
-        except Exception as e:
-            print(f"Failed to send to Discord: {e}")
+    # Split text clean by paragraph structures to protect continuous lines from being cut mid-word
+    paragraphs = content.split('\n')
+    current_chunk = []
+    current_length = 0
+
+    for paragraph in paragraphs:
+        # Add 1 to account for the newline character re-addition
+        if current_length + len(paragraph) + 1 > max_chars:
+            # Dispatch current completed chunk safely
+            payload = '\n'.join(current_chunk)
+            if payload.strip():
+                try:
+                    requests.post(DISCORD_WEBHOOK_URL, json={"content": payload}, timeout=5)
+                except Exception as e:
+                    print(f"Failed to send to Discord: {e}")
+            # Reset trackers
+            current_chunk = [paragraph]
+            current_length = len(paragraph)
+        else:
+            current_chunk.append(paragraph)
+            current_length += len(paragraph) + 1
+
+    # Send any remaining lines left in buffer
+    if current_chunk:
+        payload = '\n'.join(current_chunk)
+        if payload.strip():
+            try:
+                requests.post(DISCORD_WEBHOOK_URL, json={"content": payload}, timeout=5)
+            except Exception as e:
+                print(f"Failed to send to Discord: {e}")
 
 if __name__ == "__main__":
     print("Scraping real-time market figures...")
