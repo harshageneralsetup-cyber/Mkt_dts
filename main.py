@@ -76,7 +76,7 @@ def generate_ai_summary(prices, narratives):
         news_context = "- Global markets are consolidating ahead of major upcoming central bank macro data updates."
 
     prompt = f"""
-    You are an expert global macro hedge fund strategist and financial analyst specializing in the cross-currents between global macro variables and the Indian stock market (Nifty/Sensex/Dalal Street). 
+    You are an institutional-grade global macro hedge fund strategist and elite quantitative analyst. 
     Analyze the following real-time market data and recent news headlines:
 
     MARKET DATA:
@@ -87,8 +87,12 @@ def generate_ai_summary(prices, narratives):
     LATEST HEADLINES:
     {news_context}
 
-    Based on this data, write a sophisticated, dynamic macro summary for a Discord channel.
-    Maintain a balanced approach between global macro news trends and their direct translation into the Indian stock market, giving a slight weightage to India impact.
+    Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
+    
+    TONE & STYLE RULES:
+    - Eliminate fluff, generalizations, or filler words. Every sentence must contain data, specific indicators, or explicit tactical action.
+    - Focus heavily on quantified macro transmission mechanisms (e.g., how the exact Brent or DXY print directly math-models into Indian equity sectoral adjustments).
+    - Give a strong, prioritized weightage to Indian market outcomes.
 
     Follow this layout blueprint EXACTLY. 
 
@@ -100,25 +104,25 @@ def generate_ai_summary(prices, narratives):
     --- COPY THIS BLUEPRINT EXACTLY AND FILL IN THE BRACKETS ---
 
     ⚡ **Macro Flash: The 5 Pillars**
-    * 🏛️ **Interest Rates**: [Analyze global central bank positions and rate cuts, balanced directly with how this influences the RBI's repo rate policy or Indian banking liquidity]
-    * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | [Define global supply/demand trends, directly mapping how it impacts India's fiscal deficit, inflation, and corporate margins]
-    * 💵 **Dollar Index (DXY)**: {prices['dxy']} | [Contextualize greenback global moves, highlighting the subsequent pressure or relief on the USD/INR currency pair and FII inflows]
-    * 📈 **US Bond Yields (10Y)**: {prices['us10y']} | [Provide global yield context and explain how narrowing/widening spreads affect Indian Government Bonds and equity market valuations]
-    * 🎈 **Inflation**: [Synthesize current global macro pricing data, contrasting it with India's domestic CPI trends and local consumption sentiment]
+    * 🏛️ **Interest Rates**: [Crisp, 1-sentence data-driven verdict on Western rate positioning and the definitive next structural move for the RBI]
+    * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | [Actionable assessment tracking the exact price action against India's fiscal threshold, raw material input margins, and local inflation limits]
+    * 💵 **Dollar Index (DXY)**: {prices['dxy']} | [Quantified correlation impact regarding USD/INR spot limits, FII net flows, and emergent capital outflow triggers]
+    * 📈 **US Bond Yields (10Y)**: {prices['us10y']} | [Direct transmission breakdown affecting the India 10Y sovereign spread, domestic bond yields, and growth stock valuation compression]
+    * 🎈 **Inflation**: [Hard macro data comparison between Western CPI/PPI sticky points and India's current CPI trajectory]
 
     📰 **Latest Global Context Indicators:**
-    [Provide a sharp 2-sentence synthesis tracking how these combined global forces will set up the near-term momentum or opening sentiment for Indian stock indices like Nifty]
+    [Provide a highly actionable, 2-sentence market tactical view projecting exactly how these global numbers will dictate the opening directional momentum and volatility parameters for Nifty]
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish)**
-    * **[Indian Sector/Industry 1]**: [1-sentence reason why it wins based on oil price or macro data, e.g., consumer goods, paints, auto]
-    * **[Indian Sector/Industry 2]**: [1-sentence reason why it wins based on oil price or macro data]
-    * **[Indian Sector/Industry 3]**: [1-sentence reason why it wins based on DXY, FII inflows, or Yield setups]
+    * **[Specific Indian Sector/Industry 1]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * **[Specific Indian Sector/Industry 2]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * **[Specific Indian Sector/Industry 3]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
 
     🔴 **Immediate Losers (Bearish)**
-    * **[Indian Sector/Industry 1]**: [1-sentence reason why it loses based on oil price or macro data, e.g., upstream energy, export-driven IT]
-    * **[Indian Sector/Industry 2]**: [1-sentence reason why it loses based on oil price or macro data]
-    * **[Indian Sector/Industry 3]**: [1-sentence reason why it loses based on DXY, global growth slowdown, or Yield setups]
+    * **[Specific Indian Sector/Industry 1]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * **[Specific Indian Sector/Industry 2]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * **[Specific Indian Sector/Industry 3]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
     """
 
     try:
