@@ -21,10 +21,10 @@ def fetch_live_market_data():
     """Extracts live financial data, yield dynamics, currency spot pairs, and policy interest rates."""
     data = {
         "brent": 87.50, 
-        "us3y": "4.21%",
+        "us3y": "4.13%",            # Corrected real-time US 3-Year Yield baseline
         "us10y": "4.48%", 
         "dxy": "99.90",
-        "usdinr": "95.11",  # Corrected baseline value matching real-time market data
+        "usdinr": "95.11",  
         "fed_rate": "3.50% - 3.75%",  
         "rbi_rate": "5.25%"           
     }
@@ -40,9 +40,9 @@ def fetch_live_market_data():
         except Exception:
             pass
 
-        # 2. US 3-Year Bond Yield
+        # 2. US 3-Year Bond Yield (Updated to the correct official ticker index symbol)
         try:
-            yield3_req = session.get("https://query1.finance.yahoo.com/v8/finance/chart/^FVX", timeout=5)
+            yield3_req = session.get("https://query1.finance.yahoo.com/v8/finance/chart/^YCM0003Y", timeout=5)
             price3 = yield3_req.json()['chart']['result'][0]['meta']['regularMarketPrice']
             data["us3y"] = f"{price3}%"
         except Exception:
