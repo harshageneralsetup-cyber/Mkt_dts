@@ -19,13 +19,12 @@ client = genai.Client()
 
 def fetch_live_market_data():
     """Extracts live financial data and official central bank policy interest rates."""
-    # Corrected current baseline data fields
     data = {
         "brent": 87.50, 
         "us10y": "4.48%", 
         "dxy": "99.90",
-        "fed_rate": "3.50% - 3.75%",  # Correct active Federal Reserve policy target range
-        "rbi_rate": "5.25%"           # Correct active RBI Repo Rate
+        "fed_rate": "3.50% - 3.75%",  
+        "rbi_rate": "5.25%"           
     }
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     
@@ -55,9 +54,7 @@ def fetch_live_market_data():
     # 4. Official Federal Reserve Effective Target Range via New York Fed API
     try:
         fed_req = requests.get("https://markets.newyorkfed.org/api/ambs/all/latest.json", headers=headers, timeout=5)
-        # Verify valid response layout to securely track the federal funds policy environment
         if fed_req.status_code == 200:
-            # Setting up a reliable fallback route that reflects the current 3.50% - 3.75% target window
             data["fed_rate"] = "3.50% - 3.75%"
     except Exception:
         pass
@@ -150,7 +147,7 @@ def generate_ai_summary(prices, narratives):
     * **[Insert Sector 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
 
     🌮 **Donald's Wildcard Corner**
-    * 🗣️ **The Presidential Proclamation**: Write a funny, highly satirical, over-the-top, fictional parody quote mimicking Donald Trump's signature speaking style. Tie his hilarious taco obsession directly into today's central bank rates ({prices['fed_rate']} / {prices['rbi_rate']}), the oil prices, or global trade wars. Keep it to exactly 2 punchy sentences.
+    * 🗣️ **The Presidential Proclamation**: Write a funny, highly satirical, over-the-top, fictional parody quote mimicking Donald Trump's signature speaking style (using words like "tremendous", "nobody knows more about", "beautiful"). The premise MUST showcase him starting off talking tough about oil, tariffs, or central bank interest rates, but then completely chickens out at the end using a hilarious, fragile excuse (e.g., claiming he's walking away from the negotiation or conflict because he needs to check out a taco stand, or because the taco makers were too nice to fight, or running away to protect his beautiful taco recipes). Keep it to exactly 2 punchy, highly entertaining sentences.
     """
 
     try:
