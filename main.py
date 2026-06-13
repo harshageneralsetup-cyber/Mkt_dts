@@ -104,6 +104,7 @@ def generate_ai_summary(prices, narratives):
     --- GENERATE AND OUTPUT FILE CONTENT FOLLOWING THIS STRUCTURE ONLY ---
 
     ⚡ **Macro Flash: The 5 Pillars**
+    
     * 🏛️ **Interest Rates**: Provide a 1-sentence data-driven verdict on global central bank positions and the definitive next structural policy move for the RBI.
     * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | Provide a crisp, data-backed assessment tracking this active pricing line against India's fiscal threshold, raw material inputs, and domestic corporate margin outlooks.
     * 💵 **Dollar Index (DXY)**: {prices['dxy']} | Detail the exact impact regarding immediate USD/INR currency tracking limits, FII net capital flows, and domestic volatility triggers.
@@ -114,15 +115,23 @@ def generate_ai_summary(prices, narratives):
     Provide a highly actionable, 2-sentence market tactical summary projecting exactly how these macro data points will dictate the opening directional momentum and opening volatility parameters for Nifty.
 
     💼 **Sector Impacts: Winners & Losers**
+    
     🟢 **Immediate Winners (Bullish)**
+    
     * **[Indian Sector Name 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     * **[Indian Sector Name 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     * **[Indian Sector Name 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
 
     🔴 **Immediate Losers (Bearish)**
+    
     * **[Indian Sector Name 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     * **[Indian Sector Name 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     * **[Indian Sector Name 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+
+    --- ADD THIS SECTION VERBATIM AT THE ABSOLUTE END ---
+
+    🌮 **Donald's Wildcard Corner**
+    * 🗣️ **The Presidential Proclamation**: Write a funny, highly satirical, over-the-top, fictional parody quote mimicking Donald Trump's signature speaking style (using phrases like "tremendous," "nobody knows more about tacos than me," "beautiful tariffs," "the failing taco establishments," etc.). Tie his hilarious taco obsession directly into a parody commentary about today's Brent Crude oil price, the strong DXY, or global trade negotiations. Keep it to exactly 2 punchy sentences.
     """
 
     try:
