@@ -89,40 +89,39 @@ def generate_ai_summary(prices, narratives):
 
     Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
     
-    TONE & STYLE RULES:
-    - Eliminate fluff, generalizations, or filler words. Every sentence must contain data, specific indicators, or explicit tactical action.
-    - Focus heavily on quantified macro transmission mechanisms (e.g., how the exact Brent or DXY print directly math-models into Indian equity sectoral adjustments).
-    - Give a strong, prioritized weightage to Indian market outcomes.
-
-    Follow this layout blueprint EXACTLY. 
+    OUTPUT OUTPUT DIRECTIVES (CRITICAL FOR CLEAN REPRESENTATION):
+    - Do NOT include markdown code block syntax (like ```markdown or ```) around your response.
+    - Do NOT output any structural setup instructions, blueprint lines, or bracket labels (e.g., do not output "[Sector Name 1]"). Generate the final text directly.
+    - Every sentence must be dense with hard statistics, macro numbers, historical correlations, or explicit tactical sector outcomes. No filler text.
+    - Prioritize a balanced macro view with heavy weightage on Indian equity market impacts.
 
     CRITICAL FORMATTING RULES FOR DISCORD:
     - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). 
     - Keep the bullet point and its text on the exact same line.
     - Keep the "Sector Impacts" header entirely on a single line.
 
-    --- COPY THIS BLUEPRINT EXACTLY AND FILL IN THE BRACKETS ---
+    --- GENERATE AND OUTPUT FILE CONTENT FOLLOWING THIS STRUCTURE ONLY ---
 
     ⚡ **Macro Flash: The 5 Pillars**
-    * 🏛️ **Interest Rates**: [Crisp, 1-sentence data-driven verdict on Western rate positioning and the definitive next structural move for the RBI]
-    * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | [Actionable assessment tracking the exact price action against India's fiscal threshold, raw material input margins, and local inflation limits]
-    * 💵 **Dollar Index (DXY)**: {prices['dxy']} | [Quantified correlation impact regarding USD/INR spot limits, FII net flows, and emergent capital outflow triggers]
-    * 📈 **US Bond Yields (10Y)**: {prices['us10y']} | [Direct transmission breakdown affecting the India 10Y sovereign spread, domestic bond yields, and growth stock valuation compression]
-    * 🎈 **Inflation**: [Hard macro data comparison between Western CPI/PPI sticky points and India's current CPI trajectory]
+    * 🏛️ **Interest Rates**: Provide a 1-sentence data-driven verdict on global central bank positions and the definitive next structural policy move for the RBI.
+    * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | Provide a crisp, data-backed assessment tracking this active pricing line against India's fiscal threshold, raw material inputs, and domestic corporate margin outlooks.
+    * 💵 **Dollar Index (DXY)**: {prices['dxy']} | Detail the exact impact regarding immediate USD/INR currency tracking limits, FII net capital flows, and domestic volatility triggers.
+    * 📈 **US Bond Yields (10Y)**: {prices['us10y']} | Provide the global yield context and explain how the India-US yield spread dynamics compress or support Nifty valuation setups.
+    * 🎈 **Inflation**: Provide a sharp macro comparison matching sticky global consumer indices against India's local retail CPI data trajectories.
 
     📰 **Latest Global Context Indicators:**
-    [Provide a highly actionable, 2-sentence market tactical view projecting exactly how these global numbers will dictate the opening directional momentum and volatility parameters for Nifty]
+    Provide a highly actionable, 2-sentence market tactical summary projecting exactly how these macro data points will dictate the opening directional momentum and opening volatility parameters for Nifty.
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish)**
-    * **[Specific Indian Sector/Industry 1]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
-    * **[Specific Indian Sector/Industry 2]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
-    * **[Specific Indian Sector/Industry 3]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * Name a specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * Name a second specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * Name a third specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
 
     🔴 **Immediate Losers (Bearish)**
-    * **[Specific Indian Sector/Industry 1]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
-    * **[Specific Indian Sector/Industry 2]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
-    * **[Specific Indian Sector/Industry 3]**: [Highly specific 1-sentence actionable trade reason linked directly to raw data metrics]
+    * Name a specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * Name a second specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * Name a third specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     """
 
     try:
