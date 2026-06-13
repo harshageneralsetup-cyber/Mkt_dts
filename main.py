@@ -109,14 +109,14 @@ def generate_ai_summary(prices, narratives):
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish)**
-    * **[Sector Name 1]**: [1-sentence reason why it wins based on all combination of macro data]
-    * **[Sector Name 2]**: [1-sentence reason why it wins based on all combination of macro data]
-    * **[Sector Name 3]**: [1-sentence reason why it wins based on all combination of macro data]
+    * **[Sector Name 1]**: [1-sentence reason why it wins based on macro data]
+    * **[Sector Name 2]**: [1-sentence reason why it wins based on macro data]
+    * **[Sector Name 3]**: [1-sentence reason why it wins based on DXY or Yield setups]
 
     🔴 **Immediate Losers (Bearish)**
-    * **[Sector Name 1]**: [1-sentence reason why it loses based on all combination of macro data]
-    * **[Sector Name 2]**: [1-sentence reason why it loses based on all combination of macro data]
-    * **[Sector Name 3]**: [1-sentence reason why it loses based on all combination of macro data]
+    * **[Sector Name 1]**: [1-sentence reason why it loses based on oil price or macro data]
+    * **[Sector Name 2]**: [1-sentence reason why it loses based on oil price or macro data]
+    * **[Sector Name 3]**: [1-sentence reason why it loses based on DXY or Yield setups]
     """
 
     try:
