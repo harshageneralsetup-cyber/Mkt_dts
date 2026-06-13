@@ -89,9 +89,9 @@ def generate_ai_summary(prices, narratives):
 
     Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
     
-    OUTPUT OUTPUT DIRECTIVES (CRITICAL FOR CLEAN REPRESENTATION):
+    OUTPUT DIRECTIVES (CRITICAL FOR CLEAN REPRESENTATION):
     - Do NOT include markdown code block syntax (like ```markdown or ```) around your response.
-    - Do NOT output any structural setup instructions, blueprint lines, or bracket labels (e.g., do not output "[Sector Name 1]"). Generate the final text directly.
+    - Do NOT output any structural setup instructions, blueprint lines, or bracket labels. Generate the final text directly.
     - Every sentence must be dense with hard statistics, macro numbers, historical correlations, or explicit tactical sector outcomes. No filler text.
     - Prioritize a balanced macro view with heavy weightage on Indian equity market impacts.
 
@@ -99,6 +99,7 @@ def generate_ai_summary(prices, narratives):
     - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). 
     - Keep the bullet point and its text on the exact same line.
     - Keep the "Sector Impacts" header entirely on a single line.
+    - Under the Sector Impacts sections, the specific Indian Sector/Industry names MUST be wrapped in markdown bold asterisks (e.g., **Automobiles**, **Information Technology**).
 
     --- GENERATE AND OUTPUT FILE CONTENT FOLLOWING THIS STRUCTURE ONLY ---
 
@@ -114,14 +115,14 @@ def generate_ai_summary(prices, narratives):
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish)**
-    * Name a specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * Name a second specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * Name a third specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
 
     🔴 **Immediate Losers (Bearish)**
-    * Name a specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * Name a second specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
-    * Name a third specific Indian Sector/Industry: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
+    * **[Indian Sector Name 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics.
     """
 
     try:
