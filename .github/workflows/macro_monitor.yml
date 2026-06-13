@@ -1,32 +1,42 @@
-name: AI Macro Briefing Automation
+name: Run Macro Summary Pipeline
+
+# Force GitHub Actions runner to utilize Node.js 24 internally 
+# This removes/mitigates the deprecation warnings seen in image_d2c545.png
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 on:
   schedule:
-    # Runs at 02:30 AM UTC (8:00 AM IST) Monday through Friday
-    - cron: '30 2 * * 1-5'
-  workflow_dispatch: # Allows you to trigger the script manually from GitHub UI anytime
+    # Runs automatically every day at 09:00 UTC (Change this to your preferred execution time)
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    # Allows you to manually trigger the pipeline anytime by clicking "Run workflow" in GitHub
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repo code
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Python Environment
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         cache: 'pip'
 
-    - name: Install Project Requirements
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        # Specifically installing google-genai to support: from google import genai
+        pip install google-genai requests beautifulsoup4 lxml
 
-    - name: Run Script with Injected Secrets
+    - name: Execute Macro Script
       env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        # Securely mapping your Repository Secrets to Environment Variables
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      run: python main.py
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: |
+        # Make sure this filename matches your python script exactly
+        python main.py
