@@ -2,14 +2,11 @@ name: AI Macro Briefing Automation
 
 on:
   schedule:
-    # Runs Monday through Friday at:
-    # 03:15 AM UTC (8:45 AM IST)
-    # 09:00 AM UTC (2:30 PM IST)
-    # 05:00 PM UTC (10:30 PM IST)
-    - cron: '15 3 * * 1-5'
-    - cron: '0 9 * * 1-5'
-    - cron: '0 17 * * 1-5'
-  workflow_dispatch: # Allows you to trigger the script manually from GitHub UI anytime
+    # Shifted to odd, clean minute tracks to bypass peak queue delays:
+    - cron: '17 3 * * 1-5'   # Executes around 8:47 AM IST (Monday - Friday)
+    - cron: '8 9 * * 1-5'    # Executes around 2:38 PM IST (Monday - Friday)
+    - cron: '3 17 * * 1-5'   # Executes around 10:33 PM IST (Monday - Friday)
+  workflow_dispatch:
 
 jobs:
   run-pipeline:
