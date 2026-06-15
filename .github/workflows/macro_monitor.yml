@@ -2,14 +2,8 @@ name: AI Macro Briefing Automation
 
 on:
   schedule:
-    # Test Window 1: Triggers at 4:54 PM IST (11:24 UTC)
-    - cron: '24 11 * * 1'
-    
-    # Test Window 2: Triggers at 4:56 PM IST (11:26 UTC)
-    - cron: '26 11 * * 1'
-    
-    # Test Window 3: Triggers at 4:58 PM IST (11:28 UTC)
-    - cron: '28 11 * * 1'
+    # Giving the engine over 30 minutes to register and cache this file properly
+    - cron: '0 12 * * 1'   # 12:00 PM UTC / 5:30 PM IST (Monday)
   workflow_dispatch:
 
 jobs:
