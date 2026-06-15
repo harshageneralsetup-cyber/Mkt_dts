@@ -2,14 +2,14 @@ name: AI Macro Briefing Automation
 
 on:
   schedule:
-    # Test Window 1: Triggers at 5:35 PM IST (12:05 UTC)
-    - cron: '5 12 * * 1'
+    # 1. Morning Briefing: ~8:47 AM IST (03:17 UTC)
+    - cron: '17 3 * * 1-5'
     
-    # Test Window 2: Triggers at 5:38 PM IST (12:08 UTC)
-    - cron: '8 12 * * 1'
+    # 2. Afternoon Briefing: ~2:38 PM IST (09:08 UTC)
+    - cron: '8 9 * * 1-5'
     
-    # Test Window 3: Triggers at 5:41 PM IST (12:11 UTC)
-    - cron: '11 12 * * 1'
+    # 3. Night Briefing: ~10:33 PM IST (17:03 UTC)
+    - cron: '3 17 * * 1-5'
   workflow_dispatch:
 
 jobs:
