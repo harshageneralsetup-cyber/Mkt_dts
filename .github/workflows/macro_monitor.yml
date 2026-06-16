@@ -2,14 +2,14 @@ name: AI Macro Briefing Automation
 
 on:
   schedule:
-    # 1. Morning Briefing: 03:17 AM GMT / Server Time (8:47 AM IST)
-    - cron: '17 3 * * 1-5'
+    # Test Slot 1: 10:02 AM IST (04:32 AM GMT)
+    - cron: '32 4 * * 2'
     
-    # 2. Afternoon Briefing: 09:08 AM GMT / Server Time (2:38 PM IST)
-    - cron: '8 9 * * 1-5'
+    # Test Slot 2: 10:04 AM IST (04:34 AM GMT)
+    - cron: '34 4 * * 2'
     
-    # 3. Night Briefing: 05:03 PM GMT / Server Time (10:33 PM IST)
-    - cron: '3 17 * * 1-5'
+    # Test Slot 3: 10:06 AM IST (04:36 AM GMT)
+    - cron: '36 4 * * 2'
     
   workflow_dispatch:
 
