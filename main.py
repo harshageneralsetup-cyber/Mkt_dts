@@ -27,7 +27,7 @@ def fetch_live_market_data():
         "dxy": "99.80",             # Explicitly audited DXY target rate override
         "usdinr": "95.10",  
         "fed_rate": "3.50% - 3.75%",  
-        "rbi_rate": "5.25%"           
+        "rbi_rate": "5.25%"            
     }
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
     
@@ -138,14 +138,13 @@ def generate_ai_summary(prices, narratives):
     OUTPUT DIRECTIVES (CRITICAL FOR CLEAN REPRESENTATION):
     - Do NOT include markdown code block syntax (like ```markdown or ```) around your response.
     - Do NOT output any structural setup instructions, blueprint lines, or bracket labels. Generate the final text directly.
-    - Every sentence in the main sections must be dense with hard statistics, macro numbers, historical correlations, or explicit tactical sector outcomes. No filler text.
+    - Every sentence in the main sections must be dense with hard statistics, macro dynamics, explicit tailwinds/headwinds, and tactical sector outcomes. No filler text.
     - Prioritize a balanced macro view with heavy weightage on Indian equity market impacts.
 
     STRICT BOLDING AND LAYOUT RULES FOR SECTORS AND PIVOT TRIGGERS:
     - ONLY the sector names or conditional triggers themselves must be bolded. 
     - The structural definition text or description immediately following the bold element MUST NOT contain bold markdown asterisks (**). Keep description text entirely normal.
-    - Example of correct format for Sector: * **IT Services**: A DXY at 99.90 provides tailwinds for export-oriented margins...
-    - Example of correct format for Pivot Trigger: * 🤝 **If Peace Deal Finalizes**: Crude slides to $70, triggering massive IT rally.
+    - Example of correct format for Sector: * **IT Services**: A cooling DXY at 99.80 combined with steady US yields provides tailwinds for export-oriented margins, setting a strong actionable base for large-cap IT accumulation.
     - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). Keep the bullet point and its text on the exact same line.
     - Keep structural section headers entirely on their own single line.
 
@@ -162,15 +161,15 @@ def generate_ai_summary(prices, narratives):
     Provide a highly actionable, 2-sentence market tactical summary projecting exactly how these macro data points will dictate the opening directional momentum and opening volatility parameters for Nifty.
 
     💼 **Sector Impacts: Winners & Losers**
-    🟢 **Immediate Winners (Bullish)**
-    * **[Insert Sector 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
-    * **[Insert Sector 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
-    * **[Insert Sector 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    🟢 **Immediate Winners (Bullish Tailwinds)**
+    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind (e.g., Brent dropping, DXY softening, yields stabilizing) driving this sector. State the specific data points from the prompt supporting this breakout, and provide an actionable, 1-2 sentence industry-specific outlook for Nifty/Sensex players. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind based on the live data points. Detail the macro dynamics supporting margins and provide a sharp, actionable trade setup in 1-2 sentences. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind based on the live data points. Detail the macro dynamics supporting margins and provide a sharp, actionable trade setup in 1-2 sentences. No bold text inside this description.
 
-    🔴 **Immediate Losers (Bearish)**
-    * **[Insert Sector 1]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
-    * **[Insert Sector 2]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
-    * **[Insert Sector 3]**: Provide a highly specific, 1-sentence actionable trade reason linked directly to raw data metrics. No bold text inside this description sentence.
+    🔴 **Immediate Losers (Bearish Headwinds)**
+    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind (e.g., sticky US yields, INR depreciation, high commodity input costs) compressing margins. Note the critical data metric dragging the sector, and provide the actionable downside risk for Indian equities in 1-2 sharp sentences. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind tied to the data points provided. Explain the margin compression dynamics and provide a sharp, actionable downside risk in 1-2 sentences. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind tied to the data points provided. Explain the margin compression dynamics and provide a sharp, actionable downside risk in 1-2 sentences. No bold text inside this description.
 
     📊 **SUMMARY CHECKLIST & PIVOT TRIGGERS**
     * 🤝 **[Insert Bullish/Peace Macro Condition]**: Provide a highly precise, 1-sentence conditional macro trigger outlining a major scenario shift (e.g., peace breakthrough, unexpected commodity drops, or sudden Fed policy pivots) and its direct domino effect on a key Indian stock index or specific market sector. No bold text inside the description statement.
