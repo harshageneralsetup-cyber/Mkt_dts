@@ -3,8 +3,9 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 from google import genai
+from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 
-# Fetch configurations securely from GitHub Environment Secrets
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 if not DISCORD_WEBHOOK_URL:
@@ -93,17 +94,44 @@ def fetch_live_market_data():
     return data
 
 def fetch_live_news_narratives():
-    """Scrapes active financial headlines via a public RSS feed or news wire."""
+    """Scrapes active financial headlines via a public RSS feed and filters for items less than 24 hours old."""
     headlines = []
     headers = {"User-Agent": "Mozilla/5.0"}
+    now = datetime.now(timezone.utc)
+    
     try:
         response = requests.get("https://www.reutersagency.com/feed/", headers=headers, timeout=7)
         soup = BeautifulSoup(response.content, features="xml")
         items = soup.find_all('item')
         
-        for item in items[:5]:
+        for item in items:
             title = item.title.text.strip()
-            headlines.append(f"- {title}")
+            pub_date_tag = item.find('pubDate')
+            
+            if pub_date_tag:
+                try:
+                    # Parse RFC 822 date format (e.g., "Thu, 18 Jun 2026 08:30:00 GMT")
+                    pub_dt = parsedate_to_datetime(pub_date_tag.text.strip())
+                    
+                    # Ensure news item is fresh (younger than 24 hours / 1 day)
+                    if now - pub_dt <= timedelta(hours=24):
+                        headlines.append(f"- {title}")
+                except Exception:
+                    # Soft fallback: if date parser trips up, capture the headline safely anyway
+                    headlines.append(f"- {title}")
+            else:
+                # Fallback if pubDate is missing entirely
+                headlines.append(f"- {title}")
+                
+            if len(headlines) >= 5:
+                break
+                
+        # Hard Fallback: If feed has updated nothing in the last 24 hours (e.g., holidays/weekends)
+        if not headlines:
+            for item in items[:5]:
+                title = item.title.text.strip()
+                headlines.append(f"- {title} (Latest)")
+                
     except Exception:
         headlines = [
             "- Markets parsing recent macro data setups.",
@@ -130,7 +158,7 @@ def generate_ai_summary(prices, narratives):
     - US Dollar Index (DXY): {prices['dxy']}
     - USD/INR Currency Spot: {prices['usdinr']}
 
-    LATEST HEADLINES:
+    LATEST HEADLINES (Chronologically Filtered - Under 24h old):
     {news_context}
 
     Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
