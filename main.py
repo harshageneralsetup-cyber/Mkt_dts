@@ -162,14 +162,14 @@ def generate_ai_summary(prices, narratives):
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish Tailwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind (e.g., Brent dropping, DXY softening, yields stabilizing) driving this sector. State the specific data points from the prompt supporting this breakout, and provide an actionable, 1-2 sentence industry-specific outlook for Nifty/Sensex players. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind based on the live data points. Detail the macro dynamics supporting margins and provide a sharp, actionable trade setup in 1-2 sentences. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Identify the exact macro tailwind based on the live data points. Detail the macro dynamics supporting margins and provide a sharp, actionable trade setup in 1-2 sentences. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point (e.g., Brent at ${prices['brent']:.2f}, DXY at {prices['dxy']}) driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
 
     🔴 **Immediate Losers (Bearish Headwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind (e.g., sticky US yields, INR depreciation, high commodity input costs) compressing margins. Note the critical data metric dragging the sector, and provide the actionable downside risk for Indian equities in 1-2 sharp sentences. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind tied to the data points provided. Explain the margin compression dynamics and provide a sharp, actionable downside risk in 1-2 sentences. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Identify the precise macro headwind tied to the data points provided. Explain the margin compression dynamics and provide a sharp, actionable downside risk in 1-2 sentences. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point (e.g., high yields, sticky INR) creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
 
     📊 **SUMMARY CHECKLIST & PIVOT TRIGGERS**
     * 🤝 **[Insert Bullish/Peace Macro Condition]**: Provide a highly precise, 1-sentence conditional macro trigger outlining a major scenario shift (e.g., peace breakthrough, unexpected commodity drops, or sudden Fed policy pivots) and its direct domino effect on a key Indian stock index or specific market sector. No bold text inside the description statement.
