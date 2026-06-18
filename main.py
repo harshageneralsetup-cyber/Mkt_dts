@@ -6,7 +6,6 @@ from google import genai
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 
-# Fetch configurations securely from GitHub Environment Secrets
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 if not DISCORD_WEBHOOK_URL:
@@ -95,42 +94,50 @@ def fetch_live_market_data():
     return data
 
 def fetch_live_news_narratives():
-    """Scrapes active financial headlines via a public RSS feed and filters for items under 24 hours old."""
+    """Scrapes active financial headlines via a public RSS feed and filters for items less than 24 hours old."""
     headlines = []
-    all_items = []
     headers = {"User-Agent": "Mozilla/5.0"}
+    now = datetime.now(timezone.utc)
     
     try:
         response = requests.get("https://www.reutersagency.com/feed/", headers=headers, timeout=7)
         soup = BeautifulSoup(response.content, features="xml")
         items = soup.find_all('item')
         
-        now = datetime.now(timezone.utc)
-        cutoff = now - timedelta(hours=24)
-        
         for item in items:
             title = item.title.text.strip()
-            pub_date_str = item.pubDate.text.strip() if item.pubDate else None
+            pub_date_tag = item.find('pubDate')
             
-            if pub_date_str:
+            if pub_date_tag:
                 try:
-                    pub_date = parsedate_to_datetime(pub_date_str)
-                    if pub_date >= cutoff:
+                    # Parse RFC 822 date format (e.g., "Thu, 18 Jun 2026 08:30:00 GMT")
+                    pub_dt = parsedate_to_datetime(pub_date_tag.text.strip())
+                    
+                    # Ensure news item is fresh (younger than 24 hours / 1 day)
+                    if now - pub_dt <= timedelta(hours=24):
                         headlines.append(f"- {title}")
                 except Exception:
-                    pass
-            all_items.append(f"- {title}")
-            
-        # Fallback if no fresh headlines are detected within 24 hours
+                    # Soft fallback: if date parser trips up, capture the headline safely anyway
+                    headlines.append(f"- {title}")
+            else:
+                # Fallback if pubDate is missing entirely
+                headlines.append(f"- {title}")
+                
+            if len(headlines) >= 5:
+                break
+                
+        # Hard Fallback: If feed has updated nothing in the last 24 hours (e.g., holidays/weekends)
         if not headlines:
-            headlines = all_items[:5]
-            
+            for item in items[:5]:
+                title = item.title.text.strip()
+                headlines.append(f"- {title} (Latest)")
+                
     except Exception:
         headlines = [
             "- Markets parsing recent macro data setups.",
             "- Global commodity cross-currents drive local tracking ranges."
         ]
-    return "\n".join(headlines[:5])
+    return "\n".join(headlines)
 
 def generate_ai_summary(prices, narratives):
     """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report."""
@@ -151,7 +158,7 @@ def generate_ai_summary(prices, narratives):
     - US Dollar Index (DXY): {prices['dxy']}
     - USD/INR Currency Spot: {prices['usdinr']}
 
-    LATEST HEADLINES:
+    LATEST HEADLINES (Chronologically Filtered - Under 24h old):
     {news_context}
 
     Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
@@ -193,9 +200,8 @@ def generate_ai_summary(prices, narratives):
     * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by global or domestic news and narrative factors. Sentence 1 must explicitly identify the key risk narrative or headwind from the LATEST HEADLINES provided above. Sentence 2 must outline the downside risk or a defensive portfolio rotation. No bold text inside this description.
 
     📊 **SUMMARY CHECKLIST & PIVOT TRIGGERS**
-    * 🤝 **[Insert Bullish Policy Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger driven by global/domestic news, state/central government interventions, positive political leadership metrics, or bank policy adjustments that stimulate the world economy and structurally benefit Indian stock market indexes. No bold text inside the description statement.
-    * ⚠️ **[Insert Bearish Policy Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger outlining the direct inverse scenario of the bullish trigger above, detailing how adverse policy adjustments, central bank constraints, or political friction multiply systemic headwinds and trigger domestic equity capital outflows. No bold text inside the description statement.
-    * 🔍 **[Insert Rate-Valuation Ceiling/Pivot]**: Provide a highly precise, 1-sentence macro framework conditional trigger detailing how the active global interest rate landscape dictates equity multiple expansion limits or P/E compression for high-growth and highly-valued Indian corporations due to future cash flow discounting dynamics. No bold text inside the description statement.
+    * 🤝 **[Insert Bullish Macro Condition/Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger based on global or domestic news, supportive government actions, statements by key political leaders, or major central bank liquidity injections that positively impact the global economy and directly benefit Indian equity indices (Nifty/Sensex) or specific domestic industries. No bold text inside the description statement.
+    * ⚠️ **[Insert Bearish Macro Condition/Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger based on unfavorable global or domestic news, destabilizing government policy crackdowns, escalating geopolitical tensions driven by political leaders, or aggressive central bank tightening actions that shock the world economy and directly accelerate capital outflows (FII selling), domestic volatility, or downside risks for the Indian stock market. No bold text inside the description statement.
     """
 
     try:
@@ -248,9 +254,3 @@ if __name__ == "__main__":
     print("Streaming directly into active Discord client feed...")
     dispatch_safely_under_limit(final_payload)
     print("Process executed successfully.")
-```eof
-
----
-
-### What Was Added:
-* **The `[Insert Rate-Valuation Ceiling/Pivot]` Bullet**: This ensures Gemini explicitly details the correlation highlighted in your image—forcing the AI to map how current central bank rates function as a strict discount tool on cash flows, restricting or unlocking aggressive $P/E$ multiple expansion potential across the Indian equity landscape.
