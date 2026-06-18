@@ -112,7 +112,7 @@ def fetch_live_news_narratives():
     return "\n".join(headlines)
 
 def generate_ai_summary(prices, narratives):
-    """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report."""
+    """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report with deep macro-dynamics."""
     news_context = narratives
     if "parsing recent macro data setups" in narratives:
         news_context = "- Global markets are consolidating ahead of major upcoming central bank macro data updates."
@@ -144,7 +144,7 @@ def generate_ai_summary(prices, narratives):
     STRICT BOLDING AND LAYOUT RULES FOR SECTORS AND PIVOT TRIGGERS:
     - ONLY the sector names or conditional triggers themselves must be bolded. 
     - The structural definition text or description immediately following the bold element MUST NOT contain bold markdown asterisks (**). Keep description text entirely normal.
-    - Example of correct format for Sector: * **IT Services**: A cooling DXY at 99.80 combined with steady US yields provides tailwinds for export-oriented margins, setting a strong actionable base for large-cap IT accumulation.
+    - Example of correct format for Sector: * **IT Services**: A cooling DXY at {prices['dxy']} combined with steady US yields provides tailwinds for export-oriented margins, setting a strong actionable base for large-cap IT accumulation.
     - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). Keep the bullet point and its text on the exact same line.
     - Keep structural section headers entirely on their own single line.
 
@@ -162,14 +162,14 @@ def generate_ai_summary(prices, narratives):
 
     💼 **Sector Impacts: Winners & Losers**
     🟢 **Immediate Winners (Bullish Tailwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point (e.g., Brent at ${prices['brent']:.2f}, DXY at {prices['dxy']}) driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point driving the tailwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to create an actionable trade setup. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how the live data points (e.g., Brent Crude pricing, soft DXY, or yield movements) directly strengthen this sector's core cost base or fundamental margins. Sentence 2 must build completely on global and domestic Macro Dynamics (such as central bank policy directions, fiscal target buffers, currency cycle peaks, or systemic domestic liquidity trends) to deliver a highly specific trade play. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how the live data points directly strengthen this sector's core cost base or fundamental margins. Sentence 2 must build completely on global and domestic Macro Dynamics to deliver a highly specific trade play. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how the live data points directly strengthen this sector's core cost base or fundamental margins. Sentence 2 must build completely on global and domestic Macro Dynamics to deliver a highly specific trade play. No bold text inside this description.
 
     🔴 **Immediate Losers (Bearish Headwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point (e.g., high yields, sticky INR) creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly identify the live data point creating the headwind. Sentence 2 must connect this data to the LATEST HEADLINES provided above to define the downside risk. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how negative live data points (e.g., strong DXY, persistent yields, or high commodity inputs) directly compress this sector's operating margins or capital expenses. Sentence 2 must build completely on global and domestic Macro Dynamics (such as FII equity risk-off cycles, monetary policy tightening biases, structural import bill inflation, or supply chain disruptions) to establish a clear defensive defensive rotation or downside risk setup. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how negative live data points directly compress this sector's operating margins or capital expenses. Sentence 2 must build completely on global and domestic Macro Dynamics to establish a clear defensive rotation or downside risk setup. No bold text inside this description.
+    * **[Insert Specific Indian Industry/Sector]**: Sentence 1 must explicitly interpret how negative live data points directly compress this sector's operating margins or capital expenses. Sentence 2 must build completely on global and domestic Macro Dynamics to establish a clear defensive rotation or downside risk setup. No bold text inside this description.
 
     📊 **SUMMARY CHECKLIST & PIVOT TRIGGERS**
     * 🤝 **[Insert Bullish/Peace Macro Condition]**: Provide a highly precise, 1-sentence conditional macro trigger outlining a major scenario shift (e.g., peace breakthrough, unexpected commodity drops, or sudden Fed policy pivots) and its direct domino effect on a key Indian stock index or specific market sector. No bold text inside the description statement.
