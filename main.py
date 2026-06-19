@@ -6,6 +6,7 @@ from google import genai
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 
+# Fetch configurations securely from GitHub Environment Secrets
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 if not DISCORD_WEBHOOK_URL:
@@ -20,12 +21,11 @@ client = genai.Client()
 
 def fetch_live_market_data():
     """Extracts live financial data, yield dynamics, currency spot pairs, and policy interest rates."""
-    # 100% Audited Real-Time Baseline Database - Fully Protected Against Misguidance
     data = {
         "brent": 87.33,             
         "us3y": "4.14%",            
         "us10y": "4.48%",           
-        "dxy": "99.80",             # Explicitly audited DXY target rate override
+        "dxy": "99.80",             
         "usdinr": "95.10",  
         "fed_rate": "3.50% - 3.75%",  
         "rbi_rate": "5.25%"            
@@ -94,114 +94,106 @@ def fetch_live_market_data():
     return data
 
 def fetch_live_news_narratives():
-    """Scrapes active financial headlines via a public RSS feed and filters for items less than 24 hours old."""
+    """Scrapes active financial headlines via a public RSS feed and filters for items under 24 hours old."""
     headlines = []
+    all_items = []
     headers = {"User-Agent": "Mozilla/5.0"}
-    now = datetime.now(timezone.utc)
     
     try:
         response = requests.get("https://www.reutersagency.com/feed/", headers=headers, timeout=7)
         soup = BeautifulSoup(response.content, features="xml")
         items = soup.find_all('item')
         
+        now = datetime.now(timezone.utc)
+        cutoff = now - timedelta(hours=24)
+        
         for item in items:
             title = item.title.text.strip()
-            pub_date_tag = item.find('pubDate')
+            pub_date_str = item.pubDate.text.strip() if item.pubDate else None
             
-            if pub_date_tag:
+            if pub_date_str:
                 try:
-                    # Parse RFC 822 date format (e.g., "Thu, 18 Jun 2026 08:30:00 GMT")
-                    pub_dt = parsedate_to_datetime(pub_date_tag.text.strip())
-                    
-                    # Ensure news item is fresh (younger than 24 hours / 1 day)
-                    if now - pub_dt <= timedelta(hours=24):
+                    pub_date = parsedate_to_datetime(pub_date_str)
+                    if pub_date >= cutoff:
                         headlines.append(f"- {title}")
                 except Exception:
-                    # Soft fallback: if date parser trips up, capture the headline safely anyway
-                    headlines.append(f"- {title}")
-            else:
-                # Fallback if pubDate is missing entirely
-                headlines.append(f"- {title}")
-                
-            if len(headlines) >= 5:
-                break
-                
-        # Hard Fallback: If feed has updated nothing in the last 24 hours (e.g., holidays/weekends)
+                    pass
+            all_items.append(f"- {title}")
+            
+        # Fallback if no fresh headlines are detected within 24 hours
         if not headlines:
-            for item in items[:5]:
-                title = item.title.text.strip()
-                headlines.append(f"- {title} (Latest)")
-                
+            headlines = all_items[:5]
+            
     except Exception:
         headlines = [
             "- Markets parsing recent macro data setups.",
             "- Global commodity cross-currents drive local tracking ranges."
         ]
-    return "\n".join(headlines)
+    return "\n".join(headlines[:5])
 
 def generate_ai_summary(prices, narratives):
-    """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report."""
-    news_context = narratives
-    if "parsing recent macro data setups" in narratives:
-        news_context = "- Global markets are consolidating ahead of major upcoming central bank macro data updates."
-
+    """Feeds raw data and headlines into Gemini to generate an elite, alpha-driven Morning Trading Desk Brief."""
     prompt = f"""
-    You are an institutional-grade global macro hedge fund strategist and elite quantitative analyst with a sharp, witty edge. 
-    Analyze the following real-time market data and recent news headlines:
+    You are an institutional Indian equity market strategist running an elite Morning Trading Desk Brief. Your primary goal is NOT to explain macro or provide economic lessons. Your objective is absolute actionable alpha for the upcoming trading session on the NSE/BSE.
 
-    MARKET DATA:
-    - US Federal Reserve Target Rate: {prices['fed_rate']}
-    - RBI Repo Rate: {prices['rbi_rate']}
+    Prioritize: Freshness > Relevance > Impact. 
+
+    ### CRITICAL OPERATION LAWS:
+    1. **LIVE DATA SEARCH:** You must explicitly synthesize the provided real-time data below and leverage your knowledge base to assess market data from the last 24 hours (Reuters, Bloomberg, ET, NSE/BSE, RBI).
+    2. **THE FRESHNESS FILTER:** Before writing any data point, ask yourself: "Has this changed meaningfully during the last 24 hours?" If NO, do not spend more than one sentence on it. Do not discuss static Fed rates or long-term trends unless a fresh decision or speech occurred overnight.
+    3. **GLOBAL-ONLY MACRO MOVERS:** The "TOP 5 MARKET MOVERS" section must contain strictly global macro developments (e.g., central bank pivots, global inflation prints, currency swings). Save stock-specific announcements exclusively for the Sectors/Alpha sections.
+    4. **ALGORITHMIC SCORING SYSTEM:** Score every overnight event behind the scenes: [Impact Score (1-10) + Freshness Score (1-10) + Probability of Market Impact (1-10)]. Filter and sort your report so only the highest cumulative scoring events appear.
+
+    ### SCRAPED LIVE DATA & LATEST HEADLINES:
     - Brent Crude Oil: ${prices['brent']:.2f}
-    - US 3-Year Bond Yield: {prices['us3y']}
     - US 10-Year Bond Yield: {prices['us10y']}
     - US Dollar Index (DXY): {prices['dxy']}
     - USD/INR Currency Spot: {prices['usdinr']}
-
-    LATEST HEADLINES (Chronologically Filtered - Under 24h old):
-    {news_context}
-
-    Based on this data, write a sophisticated, hyper-crisp, data-driven macro summary tailored for active Indian stock market traders (Nifty/Sensex/Dalal Street).
+    - US Fed Rate: {prices['fed_rate']} | RBI Repo Rate: {prices['rbi_rate']}
     
-    OUTPUT DIRECTIVES (CRITICAL FOR CLEAN REPRESENTATION):
-    - Do NOT include markdown code block syntax (like ```markdown or ```) around your response.
-    - Do NOT output any structural setup instructions, blueprint lines, or bracket labels. Generate the final text directly.
-    - Every sentence in the main sections must be dense with hard statistics, macro dynamics, explicit tailwinds/headwinds, and tactical sector outcomes. No filler text.
-    - Prioritize a balanced macro view with heavy weightage on Indian equity market impacts.
+    LATEST OVERNIGHT HEADLINES:
+    {narratives}
 
-    STRICT BOLDING AND LAYOUT RULES FOR SECTORS AND PIVOT TRIGGERS:
-    - ONLY the sector names or conditional triggers themselves must be bolded. 
-    - The structural definition text or description immediately following the bold element MUST NOT contain bold markdown asterisks (**). Keep description text entirely normal.
-    - Example of correct format for Sector: * **IT Services**: A cooling DXY at 99.80 combined with steady US yields provides tailwinds for export-oriented margins, setting a strong actionable base for large-cap IT accumulation.
-    - Do NOT put a blank line or a new paragraph break immediately after a bullet point (*). Keep the bullet point and its text on the exact same line.
-    - Keep structural section headers entirely on their own single line.
+    Generate your report using the EXACT structure, headers, and visual emojis shown below. Do not deviate from this template. Replace bracketed text and examples with actual, real-time data and your tactical analysis.
 
-    --- GENERATE AND OUTPUT FILE CONTENT FOLLOWING THIS STRUCTURE ONLY ---
+    ---
 
-    ⚡ **Macro Flash: The 5 Pillars**
-    * 🏛️ **Interest Rates**: Global Fed Rate is at {prices['fed_rate']} and RBI Repo Rate is at {prices['rbi_rate']}. Provide a 1-sentence data-driven verdict analyzing how this exact policy setup directly impacts corporate cost of capital, domestic banking liquidity, and the timing of local monetary policy adjustments.
-    * 🛢️ **Oil (Brent)**: ${prices['brent']:.2f} | Provide a crisp, data-backed assessment tracking this active pricing line against India's fiscal threshold, raw material inputs, and domestic corporate margin outlooks.
-    * 💵 **Dollar Index (DXY)**: {prices['dxy']} (USD/INR Spot: {prices['usdinr']}) | Detail the exact impact regarding immediate USD/INR currency tracking limits using the live value of {prices['usdinr']}, FII net capital flows, and domestic volatility triggers.
-    * 📈 **US Bond Yields (10Y & 3Y)**: 10Y at {prices['us10y']} | 3Y at {prices['us3y']} | Provide the global yield context and explicitly analyze the spread profile between the 3Y short-term yield and 10Y long-term yield. Explain how these yield dynamics compress or support Nifty valuation setups and FII debt/equity cross-border flows.
-    * 🎈 **Inflation**: Provide a sharp macro comparison matching sticky global consumer indices against India's local retail CPI data trajectories.
+    ## ⚡ TODAY'S MARKET OUTLOOK
+    * 🏁 **Opening Directional Bias:** [Predict Gap-up, Gap-down, or Flat open based on global cues]
+    * 📝 **Traders' Gameplan:** [Provide a sharp 1-2 sentence tactical gameplan detailing exact indices, support/resistance zones, and immediate rotation strategy]
 
-    📰 **Latest Global Context Indicators:**
-    Provide a highly actionable, 2-sentence market tactical summary projecting exactly how these macro data points will dictate the opening directional momentum and opening volatility parameters for Nifty.
+    ## 🔥 TOP 5 MARKET MOVERS (24H)
+    *Ranked by Impact/Freshness Score. Must contain strictly global/macro developments. Clearly label impact as [HIGH IMPACT] or [MEDIUM IMPACT]*
+    * **[Name of Event/Data Print]** - [IMPACT LEVEL]: [1 sentence explanation of what happened overnight]. 🟢 *Likely Beneficiaries:* [Insert Stocks/Sectors] | 🔴 *Likely Losers:* [Insert Stocks/Sectors]
+    * **[Name of Event/Data Print]** - [IMPACT LEVEL]: [1 sentence explanation]. 🟢 *Likely Beneficiaries:* [Insert Stocks/Sectors] | 🔴 *Likely Losers:* [Insert Stocks/Sectors]
+    *(Provide exactly the top 2 to 5 events based on current market dynamics)*
 
-    💼 **Sector Impacts: Winners & Losers**
-    🟢 **Immediate Winners (Bullish Tailwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by the live numerical data points. Sentence 1 must explicitly identify the live data point (e.g., Brent at ${prices['brent']:.2f}, DXY at {prices['dxy']}) driving the tailwind. Sentence 2 must outline an actionable trade setup. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by global or domestic news and narrative factors. Sentence 1 must explicitly identify and interpret the key driver from the LATEST HEADLINES provided above. Sentence 2 must connect that news narrative to an actionable trade setup for Nifty/Sensex players. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by global or domestic news and narrative factors. Sentence 1 must explicitly identify and interpret the key driver from the LATEST HEADLINES provided above. Sentence 2 must connect that news narrative to an actionable trade setup for Nifty/Sensex players. No bold text inside this description.
+    ## 📊 GLOBAL SNAPSHOT
+    *Show only immediate 24h delta change and direction*
+    * 🇺🇸 **GIFT Nifty / US Markets:** [Provide latest active data/direction]
+    * 🛢️ **Brent Crude:** ${prices['brent']:.2f}/bbl - [1 sentence explicit impact on Indian margins, paints, or FMCG]
+    * 💵 **DXY / USD-INR:** DXY at {prices['dxy']} | USD-INR at ₹{prices['usdinr']}
+    * 📈 **US Yields:** 10Y at {prices['us10y']} | 3Y at {prices['us3y']}
 
-    🔴 **Immediate Losers (Bearish Headwinds)**
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by the live numerical data points. Sentence 1 must explicitly identify the negative live data point (e.g., high yields, sticky INR) creating the headwind. Sentence 2 must outline the immediate downside risk. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by global or domestic news and narrative factors. Sentence 1 must explicitly identify the key risk narrative or headwind from the LATEST HEADLINES provided above. Sentence 2 must outline the downside risk or a defensive portfolio rotation. No bold text inside this description.
-    * **[Insert Specific Indian Industry/Sector]**: This sector suggestion must be completely driven by global or domestic news and narrative factors. Sentence 1 must explicitly identify the key risk narrative or headwind from the LATEST HEADLINES provided above. Sentence 2 must outline the downside risk or a defensive portfolio rotation. No bold text inside this description.
+    ## 💰 FII/DII FLOWS
+    *Estimate latest trend if explicit numbers are unavailable.*
+    * 🟢 **Recent FII Cash Flow:** [State recent trend: Net Sell / Net Buy]
+    * 🔵 **Recent DII Cash Flow:** [State recent trend: Net Sell / Net Buy]
+    * 📈 **Trend Impact:** [1 sentence on how liquidity is capping downside or limiting upside]
 
-    📊 **SUMMARY CHECKLIST & PIVOT TRIGGERS**
-    * 🤝 **[Insert Bullish Macro Condition/Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger based on global or domestic news, supportive government actions, statements by key political leaders, or major central bank liquidity injections that positively impact the global economy and directly benefit Indian equity indices (Nifty/Sensex) or specific domestic industries. No bold text inside the description statement.
-    * ⚠️ **[Insert Bearish Macro Condition/Trigger]**: Provide a highly precise, 1-sentence conditional macro trigger based on unfavorable global or domestic news, destabilizing government policy crackdowns, escalating geopolitical tensions driven by political leaders, or aggressive central bank tightening actions that shock the world economy and directly accelerate capital outflows (FII selling), domestic volatility, or downside risks for the Indian stock market. No bold text inside the description statement.
+    ## 🎯 F&O POSITIONING
+    * 📊 **Nifty PCR & Sentiment:** [Estimate current PCR/sentiment status]
+    * 🚀 **Open Interest Dynamics:** [Highlight areas of heavy Call/Put writing]
+    * 🎯 **Trading Zone:** Support at [Level] | Resistance at [Level] | Bias: [Bullish/Bearish/Neutral]
+
+    ## 🟢 SECTOR HEATMAP
+    *Assign Bullish, Neutral, or Bearish based purely on last 24h triggers. Do not list all sectors—only those with active momentum shifts.*
+    * 📈 **[Insert High-Momentum Sector]:** [Bullish] | *Why:* [1 sentence connecting overnight news/data to sector tailwinds]
+    * 📉 **[Insert Weak-Momentum Sector]:** [Bearish] | *Why:* [1 sentence connecting overnight news/data to sector headwinds]
+
+    ## 💡 ALPHA OPPORTUNITIES
+    *Identify under-reported developments, emerging themes, or dual-trigger situations where market reaction may be delayed.*
+    * 🌟 **[Insert Theme/Setup Name]:** [1-2 sentences explaining the setup and the alpha generation potential]. *Stocks to Watch:* [Insert Specific NSE/BSE Tickers]
     """
 
     try:
