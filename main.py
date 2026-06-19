@@ -57,7 +57,7 @@ def generate_ai_summary():
     * 📈 **5-Day & 20-Day Trend:** [1 sentence summarizing current institutional liquidity trend]
 
     ## 🎯 F&O POSITIONING
-    * 📊 **Nifty PCR:** Current PCR | **Max Pain:** Current Max Pain Level
+    * 📊 **Nifty PCR:** [Current PCR] | **Max Pain:** [Current Max Pain Level]
     * 🚀 **Open Interest:** Largest Call OI at [Level] | Largest Put OI at [Level]
     * ⚡ **OI Dynamics:** *Long Build-up:* [Stocks] | *Short Build-up:* [Stocks] | *Short Covering:* [Stocks]
     * 🎯 **Trading Zone:** Support at [Level] | Resistance at [Level] | Positioning Bias: [Bias]
