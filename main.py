@@ -132,59 +132,66 @@ def fetch_live_news_narratives():
     return "\n".join(headlines[:5])
 
 def generate_ai_summary(prices, narratives):
-    """Feeds raw data and headlines into Gemini to generate an elite, alpha-driven Morning Trading Desk Brief."""
+    """Feeds raw data and headlines into Gemini to generate a fluid, intelligent macro report."""
+    news_context = narratives
+    if "parsing recent macro data setups" in narratives:
+        news_context = "- Global markets are consolidating ahead of major upcoming central bank macro data updates."
+
     prompt = f"""
     You are an institutional Indian equity market strategist running an elite Morning Trading Desk Brief. Your primary goal is NOT to explain macro or provide economic lessons. Your objective is absolute actionable alpha for the upcoming trading session on the NSE/BSE.
 
     Prioritize: Freshness > Relevance > Impact. 
 
     ### CRITICAL OPERATION LAWS:
-    1. **LIVE DATA SEARCH:** You must explicitly synthesize the provided real-time data below and leverage your knowledge base to assess market data from the last 24 hours (Reuters, Bloomberg, ET, NSE/BSE, RBI).
-    2. **THE FRESHNESS FILTER:** Before writing any data point, ask yourself: "Has this changed meaningfully during the last 24 hours?" If NO, do not spend more than one sentence on it. Do not discuss static Fed rates or long-term trends unless a fresh decision or speech occurred overnight.
-    3. **GLOBAL-ONLY MACRO MOVERS:** The "TOP 5 MARKET MOVERS" section must contain strictly global macro developments (e.g., central bank pivots, global inflation prints, currency swings). Save stock-specific announcements exclusively for the Sectors/Alpha sections.
-    4. **ALGORITHMIC SCORING SYSTEM:** Score every overnight event behind the scenes: [Impact Score (1-10) + Freshness Score (1-10) + Probability of Market Impact (1-10)]. Filter and sort your report so only the highest cumulative scoring events appear.
+    1. **LIVE DATA SEARCH:** You must explicitly browse the web (Reuters, Bloomberg, CNBC, Economic Times, Moneycontrol, NSE/BSE Corporate Announcements, RBI, SEBI) to gather live market data from the last 24 hours. (Synthesize with the provided data below).
+    2. **THE FRESHNESS FILTER:** Before writing any data point, ask yourself: *"Has this changed meaningfully during the last 24 hours?"* If NO, do not spend more than one sentence on it. Do not discuss static Fed rates, RBI repo rates, or long-term trends unless a fresh decision, data release, geopolitical event, or speech occurred overnight.
+    3. **GLOBAL-ONLY MACRO MOVERS:** The "TOP 5 MARKET MOVERS" section must contain strictly global macro developments (e.g., central bank pivots, global inflation prints, currency swings, geopolitical events, commodity disruptions). Save all stock-specific corporate announcements exclusively for the Order Tracker, Stocks in News, or Earnings sections.
+    4. **ALGORITHMIC SCORING SYSTEM:** Score every overnight event behind the scenes: [Impact Score (1-10) + Freshness Score (1-10) + Probability of Market Impact (1-10)]. Filter and sort your report so only the highest cumulative scoring events appear. 
 
     ### SCRAPED LIVE DATA & LATEST HEADLINES:
+    - US Federal Reserve Target Rate: {prices['fed_rate']}
+    - RBI Repo Rate: {prices['rbi_rate']}
     - Brent Crude Oil: ${prices['brent']:.2f}
+    - US 3-Year Bond Yield: {prices['us3y']}
     - US 10-Year Bond Yield: {prices['us10y']}
     - US Dollar Index (DXY): {prices['dxy']}
     - USD/INR Currency Spot: {prices['usdinr']}
-    - US Fed Rate: {prices['fed_rate']} | RBI Repo Rate: {prices['rbi_rate']}
-    
-    LATEST OVERNIGHT HEADLINES:
-    {narratives}
 
-    Generate your report using the EXACT structure, headers, and visual emojis shown below. Do not deviate from this template. Replace bracketed text and examples with actual, real-time data and your tactical analysis.
+    LATEST HEADLINES:
+    {news_context}
+
+    Generate your report using this exact structure, headers, and visual emojis. Do not deviate from this template. 
+    CRITICAL: The values in brackets below are structurally required formats. You MUST replace them with CURRENT REAL-TIME DATA, LIVE METRICS, and FRESH ANALYSIS based on today's actual market environment.
 
     ---
 
     ## ⚡ TODAY'S MARKET OUTLOOK
-    * 🏁 **Opening Directional Bias:** [Predict Gap-up, Gap-down, or Flat open based on global cues]
+    * 🏁 **Opening Directional Bias:** [Predict Gap-up, Gap-down, or Flat open]
     * 📝 **Traders' Gameplan:** [Provide a sharp 1-2 sentence tactical gameplan detailing exact indices, support/resistance zones, and immediate rotation strategy]
 
     ## 🔥 TOP 5 MARKET MOVERS (24H)
     *Ranked by Impact/Freshness Score. Must contain strictly global/macro developments. Clearly label impact as [HIGH IMPACT] or [MEDIUM IMPACT]*
-    * **[Name of Event/Data Print]** - [IMPACT LEVEL]: [1 sentence explanation of what happened overnight]. 🟢 *Likely Beneficiaries:* [Insert Stocks/Sectors] | 🔴 *Likely Losers:* [Insert Stocks/Sectors]
-    * **[Name of Event/Data Print]** - [IMPACT LEVEL]: [1 sentence explanation]. 🟢 *Likely Beneficiaries:* [Insert Stocks/Sectors] | 🔴 *Likely Losers:* [Insert Stocks/Sectors]
-    *(Provide exactly the top 2 to 5 events based on current market dynamics)*
+    * **[Event Name]** - [IMPACT LEVEL]: [1 sentence explanation]. 🟢 *Likely Beneficiaries:* [Stocks] | 🔴 *Likely Losers:* [Stocks]
+    * **[Event Name]** - [IMPACT LEVEL]: [1 sentence explanation]. 🟢 *Likely Beneficiaries:* [Stocks] | 🔴 *Likely Losers:* [Stocks]
+    *(Provide 2-5 actual overnight events based on current market dynamics)*
 
     ## 📊 GLOBAL SNAPSHOT
     *Show only immediate 24h delta change and direction*
-    * 🇺🇸 **GIFT Nifty / US Markets:** [Provide latest active data/direction]
-    * 🛢️ **Brent Crude:** ${prices['brent']:.2f}/bbl - [1 sentence explicit impact on Indian margins, paints, or FMCG]
+    * 🇺🇸 **GIFT Nifty:** [Current Level] ([Change] ➡️ [Trend Emoji])
+    * 🇺🇸 **S&P 500 / Nasdaq:** [Current Level] ([Change]) / [Current Level] ([Change])
+    * 🛢️ **Brent Crude:** ${prices['brent']:.2f}/bbl - [1 sentence explicit impact on Indian margins]
     * 💵 **DXY / USD-INR:** DXY at {prices['dxy']} | USD-INR at ₹{prices['usdinr']}
-    * 📈 **US Yields:** 10Y at {prices['us10y']} | 3Y at {prices['us3y']}
 
     ## 💰 FII/DII FLOWS
-    *Estimate latest trend if explicit numbers are unavailable.*
-    * 🟢 **Recent FII Cash Flow:** [State recent trend: Net Sell / Net Buy]
-    * 🔵 **Recent DII Cash Flow:** [State recent trend: Net Sell / Net Buy]
-    * 📈 **Trend Impact:** [1 sentence on how liquidity is capping downside or limiting upside]
+    * 🟢 **Yesterday FII Cash Flow:** [Net Sell/Buy Status and Amount]
+    * 🔵 **Yesterday DII Cash Flow:** [Net Sell/Buy Status and Amount]
+    * 📈 **5-Day & 20-Day Trend:** [1 sentence summarizing recent liquidity trend and downside/upside impact]
 
     ## 🎯 F&O POSITIONING
-    * 📊 **Nifty PCR & Sentiment:** [Estimate current PCR/sentiment status]
-    * 🚀 **Open Interest Dynamics:** [Highlight areas of heavy Call/Put writing]
-    * 🎯 **Trading Zone:** Support at [Level] | Resistance at [Level] | Bias: [Bullish/Bearish/Neutral]
+    * 📊 **Nifty PCR:** [Current PCR] | **Max Pain:** [Current Max Pain Level]
+    * 🚀 **Open Interest:** Largest Call OI at [Level] | Largest Put OI at [Level]
+    * ⚡ **OI Dynamics:** *Long Build-up:* [Stocks] | *Short Build-up:* [Stocks] | *Short Covering:* [Stocks]
+    * 🎯 **Trading Zone:** Support at [Level] | Resistance at [Level] | Positioning Bias: [Bias]
 
     ## 🟢 SECTOR HEATMAP
     *Assign Bullish, Neutral, or Bearish based purely on last 24h triggers. Do not list all sectors—only those with active momentum shifts.*
@@ -193,7 +200,7 @@ def generate_ai_summary(prices, narratives):
 
     ## 💡 ALPHA OPPORTUNITIES
     *Identify under-reported developments, emerging themes, or dual-trigger situations where market reaction may be delayed.*
-    * 🌟 **[Insert Theme/Setup Name]:** [1-2 sentences explaining the setup and the alpha generation potential]. *Stocks to Watch:* [Insert Specific NSE/BSE Tickers]
+    * 🌟 **[Insert Theme/Setup Name]:** [1-2 sentences explaining setup and alpha generation potential]. *Stocks to Watch:* [Specific NSE/BSE Tickers]
     """
 
     try:
