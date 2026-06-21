@@ -52,8 +52,8 @@ def generate_ai_summary():
     * 💵 **DXY / USD-INR:** DXY at [Current Level] ([Change %]) | USD-INR at ₹[Current Rate] ([Change %])
 
     ## 💰 FII/DII FLOWS
-    * 🟢 **Yesterday FII Cash Flow:** [Net Sell/Buy Status and Exact ₹ Amount]
-    * 🔵 **Yesterday DII Cash Flow:** [Net Sell/Buy Status and Exact ₹ Amount]
+    * 🟢 **Yesterday FII Cash Flow:** [If markets are close please mention explicitly that markets are closed, Net Sell/Buy Status and Exact ₹ Amount]
+    * 🔵 **Yesterday DII Cash Flow:** [If markets are close please mention explicitly that markets are closed, Net Sell/Buy Status and Exact ₹ Amount]
     * 📈 **5-Day & 20-Day Trend:** [1 sentence summarizing current institutional liquidity trend]
 
     ## 🎯 F&O POSITIONING
