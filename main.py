@@ -35,7 +35,7 @@ def generate_ai_summary():
     ---
 
     ## ⚡ TODAY'S MARKET OUTLOOK
-    * 🏁 **Opening Directional Bias:** [If markets are close please mention markets are closed, Predict Gap-up, Gap-down, or Flat open based on live SGX/GIFT Nifty]
+    * 🏁 **Opening Directional Bias:** [If markets are close please mention explicitly that markets are closed, Predict Gap-up, Gap-down, or Flat open based on live SGX/GIFT Nifty]
     * 📝 **Traders' Gameplan:** [Provide 1-2 sentences of tactical action, specific support/resistance zones, and sector rotation]
 
     ## 🔥 TOP 5 MARKET MOVERS (24H)
