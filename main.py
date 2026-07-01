@@ -52,11 +52,17 @@ def generate_ai_summary():
     * 💵 **DXY / USD-INR:** DXY at [Current Level] ([Change %]) | USD-INR at ₹[Current Rate] ([Change %])
 
     ## 💰 FII/DII FLOWS
+	**Display this entire section ONLY if the previous trading session was an NSE/BSE trading day and fresh FII/DII cash flow data is available.**
+	**If today follows a weekend or market holiday (i.e., there was no trading session yesterday), OMIT this entire section completely. Do NOT display placeholders or messages such as "Markets Closed".**
+
     * 🟢 **Yesterday FII Cash Flow:** [If markets are close please mention explicitly that markets are closed, Net Sell/Buy Status and Exact ₹ Amount]
     * 🔵 **Yesterday DII Cash Flow:** [If markets are close please mention explicitly that markets are closed, Net Sell/Buy Status and Exact ₹ Amount]
     * 📈 **5-Day & 20-Day Trend:** [1 sentence summarizing current institutional liquidity trend]
 
     ## 🎯 F&O POSITIONING
+	**Display this entire section ONLY if the previous trading session was an NSE/BSE trading day and fresh F&O positioning data (PCR, Max Pain, OI, etc.) is available.**
+	**If today follows a weekend or market holiday, OMIT this entire section completely. Do NOT display placeholders or stale values.**
+
     * 📊 **Nifty PCR:** [Current PCR] | **Max Pain:** [Current Max Pain Level]
     * 🚀 **Open Interest:** Largest Call OI at [Level] | Largest Put OI at [Level]
     * ⚡ **OI Dynamics:** *Long Build-up:* [Stocks] | *Short Build-up:* [Stocks] | *Short Covering:* [Stocks]
